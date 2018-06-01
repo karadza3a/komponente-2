@@ -21,7 +21,7 @@
     }
 
     @if(request.userInfo.isDefined) {
-        <form action="@routes.LogoutController.logout" method="post">
+        <form action="@routes.LoginController.logout" method="post">
             @helper.CSRF.formField
             <input type="submit" value="logout">
         </form>

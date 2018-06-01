@@ -1,21 +1,19 @@
-@()
-<!doctype html>
+@(person: Form[CreatePersonForm])(implicit request: MessagesRequestHeader)
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Play REST API</title>
-  </head>
+@import helper._
 
-  <body>
-    <h1>Play REST API</h1>
+@request.flash.get("success").map { key =>
+   @request.messages(key)
+}
 
-    <p>
-      This is a placeholder page to show you the REST API.
-    </p>
+@main("Welcome to Play") {
+  @form(routes.PersonController.addPerson()) {
+		@inputText(person("name"))
+		@inputText(person("age"))
+		@CSRF.formField
 
-    <ul>
-      <li><a href="/v1/posts">/v1/posts</a></li>
-    </ul>
-  </body>
-</html>
+		<div class="buttons">
+			<input type="submit" value="Add Person"/>
+		</div>
+	}
+}

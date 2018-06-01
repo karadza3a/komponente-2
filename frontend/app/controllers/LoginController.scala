@@ -1,16 +1,17 @@
 package controllers
 
-import javax.inject.{ Inject, Singleton }
-
+import javax.inject.{Inject, Singleton}
 import play.api.data.Form
 import play.api.mvc._
+import services.session.SessionService
 
-import scala.concurrent.{ ExecutionContext, Future }
+import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class LoginController @Inject() (
   userAction: UserInfoAction,
   sessionGenerator: SessionGenerator,
+  sessionService: SessionService,
   cc: ControllerComponents
 )(implicit ec: ExecutionContext)
     extends AbstractController(cc) {
@@ -33,6 +34,18 @@ class LoginController @Inject() (
     }
 
     form.bindFromRequest().fold(errorFunc, successFunc)
+  }
+
+  def logout = Action { implicit request: Request[AnyContent] =>
+    // When we delete the session id, removing the secret key is enough to render the
+    // user info cookie unusable.
+    request.session.get(SESSION_ID).foreach { sessionId =>
+      sessionService.delete(sessionId)
+    }
+
+    discardingSession {
+      Redirect(routes.HomeController.index())
+    }
   }
 
 }
