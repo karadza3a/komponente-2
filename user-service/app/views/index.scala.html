@@ -1,19 +1,22 @@
-@(person: Form[CreatePersonForm])(implicit request: MessagesRequestHeader)
+@(student: Form[CreateStudentForm])(implicit request: MessagesRequestHeader)
 
 @import helper._
 
 @request.flash.get("success").map { key =>
-   @request.messages(key)
+    @request.messages(key)
 }
 
-@main("Welcome to Play") {
-  @form(routes.PersonController.addPerson()) {
-		@inputText(person("name"))
-		@inputText(person("age"))
-		@CSRF.formField
+@main("Welcome to RAF") {
+    @form(routes.UserController.addStudent()) {
+        @inputText(student("name"))
+        @inputText(student("username"))
+        @inputPassword(student("password"))
+        @inputText(student("studentId"))
+        @inputText(student("group"))
+        @CSRF.formField
 
-		<div class="buttons">
-			<input type="submit" value="Add Person"/>
-		</div>
-	}
+        <div class="buttons">
+            <input type="submit" value="Add Student"/>
+        </div>
+    }
 }
