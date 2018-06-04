@@ -12,7 +12,7 @@ create table "lessons" (
   "room" varchar not null,
 );
 
-insert into "lessons" ("id","subject","category","professor","groups","dayOfWeek","timeStart","timeEnd","room") values (1,'pred','kat','profa','grupa','FRIDAY','15:15:00','17:00:00','U3');
+insert into "lessons" ("id","subject","category","professor","groups","dayOfWeek","timeStart","timeEnd","room") values (1,'pred','kat','profa','grupa','FRIDAY','15:15:00.000','17:00:00.000','U3');
 
 # --- !Downs
 
