@@ -24,7 +24,7 @@ class AdminController @Inject()(userAction: UserInfoAction,
       val filename = Random.alphanumeric.take(10).mkString
       schedule.ref.moveTo(Paths.get(s"/tmp/schedule/$filename"), replace = true)
 
-      Ok("File uploaded")
+      Redirect(routes.AdminController.index()).flashing("success" -> "Schedule updated!")
     }.getOrElse {
       Redirect(routes.AdminController.index()).flashing("error" -> "Missing file")
     }

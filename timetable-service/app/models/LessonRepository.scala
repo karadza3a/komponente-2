@@ -45,4 +45,13 @@ class LessonRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)(impli
   def list(): Future[Seq[Lesson]] = db.run {
     lessons.result
   }
+
+  def removeAll(): Future[Int] = db.run {
+    lessons.delete
+  }
+
+  def addAll(ls: List[Lesson]): Future[Option[Int]] = db.run {
+    lessons ++= ls
+  }
+
 }
