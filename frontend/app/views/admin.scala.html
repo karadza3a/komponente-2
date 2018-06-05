@@ -1,18 +1,18 @@
 @(form: Form[UserInfo])(implicit request: UserRequestHeader)
 
-@main("play-scala-secure-session-example") {
+    @main("play-scala-secure-session-example") {
 
-    @request.flash.data.map { case (k, v) =>
-    <p>
-        @k: @v
-    </p>
+        @request.flash.data.map { case (k, v) =>
+        <p>
+            @k: @v
+        </p>
+        }
+
+        @helper.form(action = routes.AdminController.upload, 'enctype -> "multipart/form-data") {
+
+            <input type="file" name="schedule">
+
+            @helper.CSRF.formField
+            <input type="submit">
+        }
     }
-
-    @helper.form(action = routes.AdminController.upload, 'enctype -> "multipart/form-data") {
-
-        <input type="file" name="schedule">
-
-        @helper.CSRF.formField
-        <input type="submit">
-    }
-}

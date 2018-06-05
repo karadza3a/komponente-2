@@ -6,7 +6,7 @@ import models._
 import play.api.libs.json.Json
 import play.api.mvc._
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.ExecutionContext
 
 class LessonController @Inject()(repo: LessonRepository,
                                  cc: MessagesControllerComponents
