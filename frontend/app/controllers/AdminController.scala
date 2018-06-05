@@ -1,33 +1,48 @@
 package controllers
 
+import java.io.FileNotFoundException
 import java.nio.file.Paths
 
 import javax.inject._
 import play.api.libs.Files
+import play.api.libs.ws.{WSClient, WSResponse}
 import play.api.mvc._
 
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import scala.util.Random
 
 @Singleton
 class AdminController @Inject()(userAction: UserInfoAction,
-                                cc: ControllerComponents) extends AbstractController(cc) {
+                                cc: ControllerComponents,
+                                ws: WSClient) extends AbstractController(cc) {
 
   def index = userAction { implicit request: UserRequest[_] =>
     Ok(views.html.admin(form))
   }
 
-  def upload: Action[MultipartFormData[Files.TemporaryFile]] = Action(parse.multipartFormData) { request =>
-    request.body.file("schedule").map { schedule =>
+  def upload: Action[MultipartFormData[Files.TemporaryFile]] = Action.async(parse.multipartFormData) { request =>
+    val eventualResponse: Future[WSResponse] = request.body.file("schedule").map { schedule =>
 
-      // only get the last part of the filename
-      // otherwise someone can send a path like ../../home/foo/bar.txt to write to other files on the system
       val filename = Random.alphanumeric.take(10).mkString
       schedule.ref.moveTo(Paths.get(s"/tmp/schedule/$filename"), replace = true)
 
-      Redirect(routes.AdminController.index()).flashing("success" -> "Schedule updated!")
-    }.getOrElse {
-      Redirect(routes.AdminController.index()).flashing("error" -> "Missing file")
+      ws.url("http://localhost:9091/lessons/upload/" + filename)
+        .addHttpHeaders("Accept" -> "application/json").get()
+    } match {
+      case Some(response) => response
+      case None => Future.failed(new FileNotFoundException("Schedule file not found."))
+    }
+
+    eventualResponse.map { response =>
+      response.status match {
+        case 200 =>
+          Redirect(routes.AdminController.index()).flashing("success" -> "Schedule updated!")
+        case _ =>
+          Redirect(routes.AdminController.index()).flashing("error" -> response.statusText)
+      }
+    }.recover { case error: Exception =>
+      Redirect(routes.AdminController.index()).flashing("error" -> error.getLocalizedMessage)
     }
   }
-
 }

@@ -9,6 +9,7 @@ scalaVersion := "2.12.6"
 crossScalaVersions := Seq("2.11.12", "2.12.4")
 
 libraryDependencies += guice
+libraryDependencies += ws
 libraryDependencies += "org.abstractj.kalium" % "kalium" % "0.6.0"
 libraryDependencies += "com.typesafe.akka" %% "akka-distributed-data" % "2.5.8"
 

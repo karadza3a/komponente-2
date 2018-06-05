@@ -56,9 +56,6 @@ function loadCalendarApi() {
     gapi.client.load('calendar', 'v3', listCalendars);
 }
 
-/**
- * TODO
- */
 function listCalendars() {
     var request = gapi.client.calendar.calendarList.list({});
 
@@ -68,8 +65,7 @@ function listCalendars() {
         if (calendars.length > 0) {
             for (i = 0; i < calendars.length; i++) {
                 var calendar = calendars[i];
-                if (calendar.accessRole == 'writer'
-                    || calendar.accessRole == 'owner')
+                if (calendar.accessRole == 'writer' || calendar.accessRole == 'owner')
                     $("#calendars").append(
                         $('<option />')
                             .attr('value', calendar.id)
@@ -99,7 +95,6 @@ function listSubjects() {
                         .html(result[i])
                 );
             }
-            ;
             if (chosen_browser_is_supported()) {
                 $("#subjects").chosen({width: "450px"});
             } else {
@@ -113,13 +108,24 @@ function listSubjects() {
 
 function addCalendar() {
     var resource = {
-        "summary": "Exams schedule"
+        "summary": "Schedule"
     };
     var request = gapi.client.calendar.calendars.insert({
         'resource': resource
     });
     request.execute(function (resp) {
         console.log(resp);
+        if (resp) {
+            toastr.success('Success', "Added calendar: " + resp.summary);
+            $("#calendars").append(
+                $('<option />')
+                    .attr('value', resp.id)
+                    .html(resp.summary)
+            );
+            $("#calendars").trigger("chosen:updated");
+        } else {
+            toastr.warning('Something may have gone wrong.');
+        }
     });
 }
 
@@ -146,7 +152,7 @@ function addAll() {
         alert("Please select your subjects.")
         return;
     }
-    calendarId = $("#calendars").val();
+    var calendarId = $("#calendars").val();
     $.ajax({
         url: "api.py",
         data: {
