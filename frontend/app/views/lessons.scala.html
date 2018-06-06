@@ -1,0 +1,50 @@
+@(form: Form[UserInfo])(implicit request: UserRequestHeader)
+
+@extraScripts = {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="@routes.Assets.versioned("javascripts/arrayToTable.js")" type="text/javascript"></script>
+    <script>
+            function search() {
+                $.ajax({
+                    url: "get-lessons",
+                    data: {
+                        group: $("#group").val(),
+                        room: $("#room").val(),
+                        dayOfWeek: $("#dayOfWeek").val()
+                    },
+                    success: function (result) {
+                        var table = arrayToTable(result, {
+                            thead: false,
+                            th: false,
+                            attrs: {class: 'table'}
+                        });
+
+                        $('#table-wrapper').html(table);
+                    }
+                });
+            }
+    </script>
+}
+
+@main("Lessons viewer", extraScripts) {
+
+    <label for="group">Group:</label>
+    <input id="group">
+    <label for="room">Room:</label>
+    <input id="room">
+    <label for="dayOfWeek">Day of week:</label>
+    <select id="dayOfWeek">
+        <option value="">All</option>
+        <option value="MONDAY">Monday</option>
+        <option value="TUESDAY">Tuesday</option>
+        <option value="WEDNESDAY">Wednesday</option>
+        <option value="THURSDAY">Thursday</option>
+        <option value="FRIDAY">Friday</option>
+        <option value="SATURDAY">Saturday</option>
+        <option value="SUNDAY">Sunday</option>
+    </select>
+
+    <button type="submit" onclick="search()">Search</button>
+
+    <div id="table-wrapper"></div>
+}

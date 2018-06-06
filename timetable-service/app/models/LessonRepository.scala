@@ -1,5 +1,7 @@
 package models
 
+import java.time.DayOfWeek
+
 import javax.inject.{Inject, Singleton}
 import play.api.db.slick.DatabaseConfigProvider
 import slick.jdbc.JdbcProfile
@@ -42,8 +44,15 @@ class LessonRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)(impli
 
   private val lessons = TableQuery[LessonTable]
 
-  def list(): Future[Seq[Lesson]] = db.run {
-    lessons.result
+  def list(group: String = "", room: String = "", dayOfWeek: Option[DayOfWeek] = None): Future[Seq[Lesson]] = db.run {
+    val filteredLessons = for {
+      l <- lessons if (l.groups like s"%$group%") && (l.room like s"%$room%")
+    } yield l
+
+    dayOfWeek match {
+      case Some(dow) => filteredLessons.filter(_.dayOfWeek === dow.toString).result
+      case None => filteredLessons.result
+    }
   }
 
   def removeAll(): Future[Int] = db.run {

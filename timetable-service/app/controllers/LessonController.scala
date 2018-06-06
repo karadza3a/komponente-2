@@ -1,5 +1,7 @@
 package controllers
 
+import java.time.DayOfWeek
+
 import helpers.Parser
 import javax.inject._
 import models._
@@ -13,8 +15,12 @@ class LessonController @Inject()(repo: LessonRepository,
                                 )(implicit ec: ExecutionContext)
   extends MessagesAbstractController(cc) {
 
-  def getLessons: Action[AnyContent] = Action.async { implicit request =>
-    repo.list().map { lessons => Ok(Json.toJson(lessons)) }
+  def getLessons(group: String, room: String, dayOfWeek: String): Action[AnyContent] = Action.async { implicit request =>
+    val dow = dayOfWeek match {
+      case "" => None
+      case _ => Some(DayOfWeek.valueOf(dayOfWeek))
+    }
+    repo.list(group, room, dow).map { lessons => Ok(Json.toJson(lessons)) }
   }
 
   def uploadLessons(filename: String): Action[AnyContent] = Action.async { implicit request =>
