@@ -62,5 +62,4 @@ class LessonRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)(impli
   def addAll(ls: List[Lesson]): Future[Option[Int]] = db.run {
     lessons ++= ls
   }
-
 }

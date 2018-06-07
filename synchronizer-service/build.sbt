@@ -1,4 +1,4 @@
-name := """play-scala-slick-example"""
+name := """komponente2-synchronizer-service"""
 
 version := "2.6.x"
 
@@ -9,9 +9,7 @@ scalaVersion := "2.12.6"
 crossScalaVersions := Seq("2.11.12", "2.12.4")
 
 libraryDependencies += guice
-libraryDependencies += "com.typesafe.play" %% "play-slick" % "3.0.3"
-libraryDependencies += "com.typesafe.play" %% "play-slick-evolutions" % "3.0.3"
+libraryDependencies += ws
 
-libraryDependencies += "com.h2database" % "h2" % "1.4.197"
-
+libraryDependencies += "com.univocity" % "univocity-parsers" % "2.6.1"
 libraryDependencies += specs2 % Test

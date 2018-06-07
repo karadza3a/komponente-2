@@ -7,6 +7,7 @@ GET         /admin/home                 controllers.AdminController.index
 POST        /admin/upload               controllers.AdminController.upload
 
 GET         /student/sync               controllers.StudentController.sync
+GET         /student/get-events         controllers.StudentController.getEvents
 GET         /student/lessons            controllers.StudentController.lessons
 GET         /student/get-lessons        controllers.StudentController.getLessons(group:String ?= "", room:String ?= "", dayOfWeek:String ?= "")
 

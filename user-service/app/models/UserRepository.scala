@@ -97,4 +97,11 @@ class UserRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)(implici
   def list(): Future[Seq[User]] = db.run {
     users.result
   }
+
+  def getUserById(id: Long): Future[Option[User]] = db.run {
+    users.filter(_.id === id).result.map(result => result.size match {
+      case 1 => Some(result.last)
+      case _ => None
+    })
+  }
 }

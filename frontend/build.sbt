@@ -1,4 +1,4 @@
-name := """play-scala-secure-session-example"""
+name := """komponenete2-frontend"""
 
 version := "1.0-SNAPSHOT"
 

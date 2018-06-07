@@ -66,6 +66,12 @@ class UserController @Inject()(repo: UserRepository,
       Ok(Json.toJson(users))
     }
   }
+
+  def getUserById(id: Long): Action[AnyContent] = Action.async { implicit request =>
+    repo.getUserById(id).map { user =>
+      Ok(Json.toJson(user))
+    }
+  }
 }
 
 /**

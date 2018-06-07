@@ -129,17 +129,23 @@ function addCalendar() {
     });
 }
 
-function addEvent(resource, calendarId) {
-    var request = gapi.client.calendar.events.insert({
-        'calendarId': calendarId,
-        'resource': resource
-    });
-    request.execute(function (resp) {
-        if (resp.status == "confirmed") {
-            toastr.success('Success', resp.summary);
-        } else {
-            toastr.warning('Something may have gone wrong.');
+function createEvent(resource, calendarId) {
+    var event = {
+        'summary': resource.title,
+        'location': resource.location,
+        'description': resource.description,
+        'start': {
+            'dateTime': resource.start,
+            'timeZone': 'Europe/Belgrade'
+        },
+        'end': {
+            'dateTime': resource.end,
+            'timeZone': 'Europe/Belgrade'
         }
+    };
+    return gapi.client.calendar.events.insert({
+        'calendarId': calendarId,
+        'resource': event
     });
 }
 
@@ -148,21 +154,22 @@ function addAll() {
         alert("Please select a writeable calendar.")
         return;
     }
-    if ($("#subjects").val() == null) {
-        alert("Please select your subjects.")
-        return;
-    }
     var calendarId = $("#calendars").val();
     $.ajax({
-        url: "api.py",
-        data: {
-            subjects: $("#subjects").val()
-        },
+        url: "get-events",
+        type: "GET",
         success: function (result) {
+
+            var batch = gapi.client.newBatch();
             for (var i = 0; i < result.length; i++) {
-                result[i].summary = $("#name_prefix").val() + result[i].summary;
-                addEvent(result[i], calendarId);
+                event = createEvent(result[i], calendarId);
+                batch.add(event)
             }
+            batch.then(function () {
+                toastr.success('Success', "Added " + result.length + " events.");
+            }, function () {
+                toastr.warning('Something may have gone wrong.');
+            })
         }
     });
 }

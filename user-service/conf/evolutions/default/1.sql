@@ -11,6 +11,7 @@ create table "users" (
 );
 
 insert into "users" ("id","name","username","password","is_admin") values (1,'superadmin','admin','admin',1);
+insert into "users" ("id","name","username","password","is_admin","student_id","student_group") values (2,'Andrej','a','a',0,'RN 1/1','401');
 
 # --- !Downs
 

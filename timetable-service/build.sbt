@@ -1,4 +1,4 @@
-name := """play-scala-slick-example"""
+name := """komponente2-timetable-service"""
 
 version := "2.6.x"
 
