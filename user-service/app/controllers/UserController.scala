@@ -68,8 +68,16 @@ class UserController @Inject()(repo: UserRepository,
   }
 
   def getUserById(id: Long): Action[AnyContent] = Action.async { implicit request =>
-    repo.getUserById(id).map { user =>
-      Ok(Json.toJson(user))
+    repo.getUserById(id).map {
+      case Some(user) => Ok(Json.toJson(user))
+      case None => NotFound("User not found.")
+    }
+  }
+
+  def login(username: String, password: String): Action[AnyContent] = Action.async { implicit request =>
+    repo.getUserByCredentials(username, password).map {
+      case Some(user) => Ok(Json.toJson(user))
+      case None => NotFound("User not found.")
     }
   }
 }

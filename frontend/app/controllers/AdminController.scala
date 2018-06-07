@@ -16,9 +16,11 @@ import scala.util.Random
 class AdminController @Inject()(userAction: UserInfoAction,
                                 cc: ControllerComponents,
                                 ws: WSClient) extends AbstractController(cc) {
+  val authorizedUserAction: (UserRequest[_] => Future[Result]) => Action[AnyContent] =
+    userAction.authorizedUserAction(userInfo => userInfo.isDefined && userInfo.get.isAdmin)
 
-  def index = userAction { implicit request: UserRequest[_] =>
-    Ok(views.html.admin(form))
+  def index = authorizedUserAction { implicit request: UserRequest[_] =>
+    Future.successful(Ok(views.html.admin(request)))
   }
 
   def upload: Action[MultipartFormData[Files.TemporaryFile]] = Action.async(parse.multipartFormData) { request =>

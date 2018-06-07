@@ -104,4 +104,15 @@ class UserRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)(implici
       case _ => None
     })
   }
+
+  def getUserByCredentials(username: String, password: String): Future[Option[User]] = db.run {
+    users
+      .filter(_.username === username)
+      .filter(_.password === password)
+      .result.map(
+      result => result.size match {
+        case 1 => Some(result.last)
+        case _ => None
+      })
+  }
 }

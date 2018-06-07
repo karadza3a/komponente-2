@@ -1,52 +1,52 @@
-@(form: Form[UserInfo])(implicit request: UserRequestHeader)
+@(implicit request: UserRequestHeader)
 
-    @extraScripts = {
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-        <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
-        <link href="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
-        <link href="@routes.Assets.versioned("libs/chosen.bootstrap.min.css")" rel="stylesheet" />
+@extraScripts = {
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+    <link href="@routes.Assets.versioned("libs/chosen.bootstrap.min.css")" rel="stylesheet" />
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        <script src="@routes.Assets.versioned("libs/chosen.jquery.min.js")" type="text/javascript"></script>
-        <script src="@routes.Assets.versioned("javascripts/calendar.js")" type="text/javascript"></script>
-        <script type="text/javascript">
-                var config = {
-                    '.chosen-select': {},
-                    '.chosen-select-deselect': {allow_single_deselect: true},
-                    '.chosen-select-no-single': {disable_search_threshold: 10},
-                    '.chosen-select-no-results': {no_results_text: 'Oops, nothing found!'},
-                    '.chosen-select-width': {width: "95%"}
-                }
-        </script>
-    }
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="@routes.Assets.versioned("libs/chosen.jquery.min.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("javascripts/calendar.js")" type="text/javascript"></script>
+    <script type="text/javascript">
+        var config = {
+            '.chosen-select': {},
+            '.chosen-select-deselect': {allow_single_deselect: true},
+            '.chosen-select-no-single': {disable_search_threshold: 10},
+            '.chosen-select-no-results': {no_results_text: 'Oops, nothing found!'},
+            '.chosen-select-width': {width: "95%"}
+        }
+    </script>
+}
 
-    @main("play-scala-secure-session-example", extraScripts) {
-        <div style="padding:50px">
-            <div id="authorize-div" class="collapse">
-                <h3>Authorize access to Google Calendar API</h3>
-                <button id="authorize-button" onclick="handleAuthClick(event)">
-                    Authorize
-                </button>
-            </div>
-
-            <select id="calendars" class="chosen-select collapse"></select>
-            <div style="margin: 10px"></div>
-
-            <div class="row">
-                <span id="pleaseWait" class="collapse">Please wait...</span>
-            </div>
-            <div class="collapse">
-                <div class="side-by-side clearfix">
-                    <button id="addCalendar" onclick="addCalendar()" class="col-sm-6">
-                        Add a new calendar
-                    </button>
-                </div>
-                <div style="margin: 10px"></div>
-                <button id="addAllButton" onclick="addAll()" class="col-sm-6">
-                    Synchronize schedule
-                </button>
-            </div>
+@main("play-scala-secure-session-example", extraScripts) {
+    <div style="padding: 50px">
+        <div id="authorize-div" class="collapse">
+            <h3>Authorize access to Google Calendar API</h3>
+            <button id="authorize-button" onclick="handleAuthClick(event)">
+                Authorize
+            </button>
         </div>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-        <script src="https://apis.google.com/js/client.js?onload=checkAuth"></script>
-    }
+
+        <select id="calendars" class="chosen-select collapse"></select>
+        <div style="margin: 10px"></div>
+
+        <div class="row">
+            <span id="pleaseWait" class="collapse">Please wait...</span>
+        </div>
+        <div class="collapse">
+            <div class="side-by-side clearfix">
+                <button id="addCalendar" onclick="addCalendar()" class="col-sm-6">
+                    Add a new calendar
+                </button>
+            </div>
+            <div style="margin: 10px"></div>
+            <button id="addAllButton" onclick="addAll()" class="col-sm-6">
+                Synchronize schedule
+            </button>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="https://apis.google.com/js/client.js?onload=checkAuth"></script>
+}

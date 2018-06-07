@@ -6,6 +6,7 @@
 GET         /                    controllers.UserController.index
 POST        /student             controllers.UserController.addStudent
 GET         /users               controllers.UserController.getUsers
+GET         /login               controllers.UserController.login(username:String, password:String)
 GET         /user/:id            controllers.UserController.getUserById(id:Long)
 
 # Map static resources from the /public folder to the /assets URL path

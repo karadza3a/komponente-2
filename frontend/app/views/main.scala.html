@@ -1,9 +1,3 @@
-@*
-* This template is called from the `index` template. This template
-* handles the rendering of the page header and body tags. It takes
-* two arguments, a `String` for the title of the page and an `Html`
-* object to insert into the body of the page.
-*@
 @(title: String, headExtra: Html = Html(""))(content: Html)
 
 <!DOCTYPE html>
@@ -18,8 +12,10 @@
     </head>
     <body>
         <ul>
-            <li><a href="@routes.StudentController.sync()">student sync</a></li>
-            <li><a href="@routes.StudentController.lessons()">student lessons</a></li>
+            <li><a href="@routes.HomeController.index()">Home</a></li>
+            <li><a href="@routes.StudentController.sync()">Student sync</a></li>
+            <li><a href="@routes.StudentController.lessons()">Student lessons</a></li>
+            <li><a href="@routes.AdminController.index()">Admin home</a></li>
         </ul>
         @* And here's where we render the `Html` object containing
         * the page content. *@
