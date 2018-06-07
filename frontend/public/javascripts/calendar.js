@@ -1,7 +1,6 @@
 // Your Client ID can be retrieved from your project in the Google
 // Developer Console, https://console.developers.google.com
 var CLIENT_ID = '977873630238-e7af6qmovht9fmd058pn20ang0pef3l6.apps.googleusercontent.com';
-var API_KEY = 'AIzaSyADFc2oxztqV1PwB6NUY1phr4XiNr-S_8o';
 
 var SCOPES = ["https://www.googleapis.com/auth/calendar"];
 
@@ -163,7 +162,7 @@ function addAll() {
         },
         type: "GET",
         success: function (result) {
-
+            result = JSON.parse(result);
             var batch = gapi.client.newBatch();
             for (var i = 0; i < result.length; i++) {
                 event = createEvent(result[i], calendarId);
