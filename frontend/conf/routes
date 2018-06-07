@@ -1,4 +1,6 @@
 GET         /                           controllers.HomeController.index
+GET         /register                   controllers.HomeController.register
+POST        /do-register                controllers.HomeController.doRegister
 
 POST        /login                      controllers.LoginController.login
 POST        /logout                     controllers.LoginController.logout
@@ -7,8 +9,8 @@ GET         /admin/home                 controllers.AdminController.index
 POST        /admin/upload               controllers.AdminController.upload
 
 GET         /student/sync               controllers.StudentController.sync
-GET         /student/get-events         controllers.StudentController.getEvents
 GET         /student/lessons            controllers.StudentController.lessons
+GET         /student/get-events         controllers.StudentController.getEvents(start: String, end: String)
 GET         /student/get-lessons        controllers.StudentController.getLessons(group:String ?= "", room:String ?= "", dayOfWeek:String ?= "")
 
 # Map static resources from the /public folder to the /assets URL path

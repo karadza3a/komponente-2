@@ -38,6 +38,16 @@ package object controllers {
     )
   )
 
+  val studentForm: Form[(String, String, String, String, String)] = Form {
+    tuple(
+      "name" -> nonEmptyText,
+      "username" -> nonEmptyText,
+      "password" -> nonEmptyText,
+      "studentId" -> nonEmptyText,
+      "group" -> nonEmptyText
+    )
+  }
+
   def discardingSession(result: Result): Result = {
     result.withNewSession.discardingCookies(DiscardingCookie(USER_INFO_COOKIE_NAME))
   }

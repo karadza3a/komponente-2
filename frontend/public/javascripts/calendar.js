@@ -157,6 +157,10 @@ function addAll() {
     var calendarId = $("#calendars").val();
     $.ajax({
         url: "get-events",
+        data: {
+            start: $("#start").val(),
+            end: $("#end").val()
+        },
         type: "GET",
         success: function (result) {
 

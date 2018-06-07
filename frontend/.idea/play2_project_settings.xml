@@ -10,6 +10,13 @@
             </ProjectSettingsEntry>
           </value>
         </entry>
+        <entry key="komponenete2-frontend">
+          <value>
+            <ProjectSettingsEntry>
+              <option name="playDistrPath" value="$USER_HOME$/.ivy2/cache/com.typesafe.play/play_2.12/jars/play_2.12-2.6.15.jar" />
+            </ProjectSettingsEntry>
+          </value>
+        </entry>
         <entry key="play-scala-secure-session-example">
           <value>
             <ProjectSettingsEntry>

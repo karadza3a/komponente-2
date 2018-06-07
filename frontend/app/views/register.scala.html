@@ -1,0 +1,20 @@
+@(form: Form[(String, String, String, String, String)])(implicit request: UserRequestHeader)
+
+@main("play-scala-secure-session-example") {
+
+    @request.flash.data.map { case (k, v) =>
+    <p>
+        @k: @v
+    </p>
+    }
+
+    <form action="@routes.HomeController.doRegister" method="post">
+        @helper.CSRF.formField
+        @helper.inputText(form("name"))
+        @helper.inputText(form("username"))
+        @helper.inputText(form("password"))
+        @helper.inputText(form("studentId"))
+        @helper.inputText(form("group"))
+        <input type="submit" value="login">
+    </form>
+}

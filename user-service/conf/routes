@@ -3,7 +3,6 @@
 # ~~~~
 
 # Home page
-GET         /                    controllers.UserController.index
 POST        /student             controllers.UserController.addStudent
 GET         /users               controllers.UserController.getUsers
 GET         /login               controllers.UserController.login(username:String, password:String)
